@@ -1,0 +1,7 @@
+name: GothicJobsHerrero
+main: com.loncha.gothicjobsherrero.Main
+version: 0.1
+commands:
+   reloadherrero:
+      description: Recarga todos los archivos de configuracion del herrero.
+      usage: /reloadherrero

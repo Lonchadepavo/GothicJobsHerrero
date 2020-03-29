@@ -1,0 +1,66 @@
+recetas:
+   Lingote_hierro:
+      resultado: IRON_INGOT
+      nombreresultado: Barra de hierro corta
+      resultadodata: 0
+      resultadocantidad: 1
+      ingredientes:
+         - Hierro fundido
+      cantidadingredientes:
+         - 1
+      herramienta: Molde para lingotes
+      nivel: 1
+
+ingredientes:
+   Pepita_hierro:
+      nombre: IRON_NUGGET
+      data: 0
+      tiempo: 100
+      resultado: Hierro fundido
+      cantidadresultado: 0.2
+      
+forja:
+   Barra de hierro corta al rojo:
+      resultados_nombre:
+         - test
+      resultados_item:
+         - IRON_INGOT
+      resultados_usos:
+         - 10
+      resultados_niveles:
+         - 1
+   Barra de hierro media al rojo:
+      resultados_nombre:
+         - 
+      resultados_item:
+         - 
+      resultados_usos:
+         -
+      resultados_niveles:
+         - 
+   Barra de hierro larga al rojo:
+      resultados_nombre:
+         - 
+      resultados_item:
+         - 
+      resultados_usos:
+         -
+      resultados_niveles:
+         -
+
+ingredientesforja:
+   Barra de hierro corta al rojo:
+      nombre: Barra de hierro corta al rojo
+      tipo: IRON_INGOT
+      data: 0
+   Barra de hierro media al rojo:
+      nombre: Barra de hierro media al rojo
+      tipo: IRON_INGOT
+      data: 0
+   Barra de hierro larga al rojo:
+      nombre: Barra de hierro larga al rojo
+      tipo: IRON_INGOT
+      data: 0 
+      
+   
+   
