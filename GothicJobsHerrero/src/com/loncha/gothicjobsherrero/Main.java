@@ -75,7 +75,6 @@ public class Main extends JavaPlugin implements Listener{
 				tempIng.setCantidadResultado(getCustomConfig().getDouble("ingredientes."+s+".cantidadresultado"));
 				
 				listaIngredientes.add(tempIng);
-				System.out.println("ing");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -154,10 +153,6 @@ public class Main extends JavaPlugin implements Listener{
 				String tipo = getCustomConfig().getString("ingredientesforja."+s+".tipo");			
 				ingredientesTipoForja.add(Material.getMaterial(tipo));
 
-			}
-			
-			for(String s : ingredientesForja) {
-				System.out.println(s);
 			}
 		
 			

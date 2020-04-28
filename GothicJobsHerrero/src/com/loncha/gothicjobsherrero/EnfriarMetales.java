@@ -13,6 +13,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Cauldron;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class EnfriarMetales implements Listener{
 	Main m;
 	
@@ -43,25 +45,32 @@ public class EnfriarMetales implements Listener{
 				if (nombreItemInHand.contains("al rojo")) {
 					if (!c.isEmpty()) {
 						
-						//Quitarte el item al rojo de la mano
-						restarObjeto(itemInHand, p);
-						String nuevoNombre = nombreItemInHand.substring(0, nombreItemInHand.length()-8);
-						
-						//Darte el nuevo item
-						for (ItemStack item : m.itemsCustomHerrero) {
-							if (item.hasItemMeta()) {
-								if (item.getItemMeta().getDisplayName().equalsIgnoreCase(nuevoNombre)) {
-									p.getInventory().addItem(item);
-									
-									reproducirSonido(p, Sound.ITEM_ARMOR_EQUIP_LEATHER, 10);
+						if (nombreItemInHand.contains("Cubo")) {
+							restarObjeto(itemInHand, p);
+							p.getInventory().addItem(new ItemStack(Material.BUCKET));
+							
+						} else {						
+							//Quitarte el item al rojo de la mano
+							restarObjeto(itemInHand, p);
+							String nuevoNombre = nombreItemInHand.substring(0, nombreItemInHand.length()-8);
+							
+							//Darte el nuevo item
+							for (ItemStack item : m.itemsCustomHerrero) {
+								if (item.hasItemMeta()) {
+									if (item.getItemMeta().getDisplayName().equalsIgnoreCase(nuevoNombre)) {
+										p.getInventory().addItem(item);
+										
+										reproducirSonido(p, Sound.ITEM_ARMOR_EQUIP_LEATHER, 10);
+									}
 								}
 							}
+							
+							//Vaciar caldero
+							BlockState d = b.getState();
+			                d.getData().setData((byte) (c.getData()-1));
+			                d.update();
+			                
 						}
-						
-						//Vaciar caldero
-						BlockState d = b.getState();
-		                d.getData().setData((byte) (c.getData()-1));
-		                d.update();
 					}
 				}
 			}
@@ -79,9 +88,22 @@ public class EnfriarMetales implements Listener{
 	
 	public void reproducirSonido(Player p, Sound sonido, int rango) {
         for (Player players : Bukkit.getOnlinePlayers()) {
-			if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
-				players.getWorld().playSound(p.getLocation(), sonido, 1.0F, 0.01F);
-			}
+        	if (p.getWorld() == players.getWorld()) {
+				if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
+					
+					players.getWorld().playSound(p.getLocation(), sonido, 1.0F, 0.01F);
+				}
+        	}
+        }
+	}
+	
+	public void enviarMensajeSimple(Player p, ChatColor color, String mensaje, int rango) {
+        for (Player players : Bukkit.getOnlinePlayers()) {
+        	if (p.getWorld() == players.getWorld()) {
+				if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
+					players.sendMessage(color+mensaje);
+				}
+        	}
         }
 	}
 }

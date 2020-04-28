@@ -57,7 +57,6 @@ public class FundirMetales implements Listener{
 						int dataIngrediente = ing.getDataIngrediente();
 
 						if (nombreIngrediente.equals(nombreItemInHand)) {
-							System.out.println("entra");
 							if (!b.hasMetadata("estado")) {
 								b.setMetadata("estado", new FixedMetadataValue(m,"ingredientes"));
 								b.setMetadata("tiempofundicion", new FixedMetadataValue(m, 0));
@@ -355,28 +354,30 @@ public class FundirMetales implements Listener{
 		ItemStack clickedItem = e.getCurrentItem();
 		
 		String nombreItem = "";
-		if (clickedItem.hasItemMeta()) {
-			nombreItem = clickedItem.getItemMeta().getDisplayName();
+		if (clickedItem != null) {
+			if (clickedItem.hasItemMeta()) {
+				nombreItem = clickedItem.getItemMeta().getDisplayName();
+				
+			} else {
+				nombreItem = clickedItem.getType().toString();
+			}
 			
-		} else {
-			nombreItem = clickedItem.getType().toString();
-		}
-		
-		if (nombreItem.contains("al rojo")) {
-			ItemStack[] items = p.getInventory().getContents();
-			
-			if (items[38] != null && items[38].hasItemMeta()) {
-				if (!items[38].getItemMeta().getDisplayName().equalsIgnoreCase("§fGuantes de herrero")) {
+			if (nombreItem.contains("al rojo")) {
+				ItemStack[] items = p.getInventory().getContents();
+				
+				if (items[38] != null && items[38].hasItemMeta()) {
+					if (!items[38].getItemMeta().getDisplayName().equalsIgnoreCase("§fGuantes de herrero")) {
+						//Te quemas
+						e.setCancelled(true);
+						p.damage(5);
+						p.sendMessage(ChatColor.RED+"No llevabas la protección necesaria y te has quemado");
+					}
+				} else {
 					//Te quemas
 					e.setCancelled(true);
 					p.damage(5);
 					p.sendMessage(ChatColor.RED+"No llevabas la protección necesaria y te has quemado");
 				}
-			} else {
-				//Te quemas
-				e.setCancelled(true);
-				p.damage(5);
-				p.sendMessage(ChatColor.RED+"No llevabas la protección necesaria y te has quemado");
 			}
 		}
 	}
@@ -392,17 +393,22 @@ public class FundirMetales implements Listener{
 	
 	public void reproducirSonido(Player p, Sound sonido, int rango) {
         for (Player players : Bukkit.getOnlinePlayers()) {
-			if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
-				players.getWorld().playSound(p.getLocation(), sonido, 1.0F, 0.01F);
-			}
+        	if (p.getWorld() == players.getWorld()) {
+				if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
+					
+					players.getWorld().playSound(p.getLocation(), sonido, 1.0F, 0.01F);
+				}
+        	}
         }
 	}
 	
 	public void enviarMensajeSimple(Player p, ChatColor color, String mensaje, int rango) {
         for (Player players : Bukkit.getOnlinePlayers()) {
-			if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
-				players.sendMessage(color+mensaje);
-			}
+        	if (p.getWorld() == players.getWorld()) {
+				if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
+					players.sendMessage(color+mensaje);
+				}
+        	}
         }
 	}
 

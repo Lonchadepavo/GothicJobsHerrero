@@ -74,10 +74,6 @@ public class CrafteoYunque implements Listener{
 							List<Integer> resultadosUso = item.getResultadosUsos();
 							List<Integer> resultadosNivel = item.getResultadosNivel();
 							
-							for(String s : resultadosNombre) {
-								System.out.println(s);
-							}
-							
 							if (b.hasMetadata(nombreItem)) {
 								if (b.getMetadata("usos").get(0).asInt() < resultadosUso.get(resultadosUso.size()-1)) {
 									int usos = b.getMetadata("usos").get(0).asInt();
@@ -89,8 +85,9 @@ public class CrafteoYunque implements Listener{
 												b.setMetadata("resultado", new FixedMetadataValue(m, resultadosItem.get(i-1)));
 												b.setMetadata("resultadonombre", new FixedMetadataValue(m, resultadosNombre.get(i-1)));
 												b.setMetadata("nivel", new FixedMetadataValue(m, resultadosNivel.get(i)));
-												
-												for (String s : resultadosNombre) {
+
+												for (ItemForja iforja : m.listaItemsForja) {
+													String s = iforja.getNombreItem();
 													b.removeMetadata(s, m);
 												}
 												
@@ -100,10 +97,6 @@ public class CrafteoYunque implements Listener{
 												b.setMetadata("resultado", new FixedMetadataValue(m, resultadosItem.get(i)));
 												b.setMetadata("resultadonombre", new FixedMetadataValue(m, resultadosNombre.get(i)));
 												b.setMetadata("nivel", new FixedMetadataValue(m, resultadosNivel.get(i)));
-												
-												for (String s : resultadosNombre) {
-													b.removeMetadata(s, m);
-												}
 												
 												b.setMetadata(resultadosNombre.get(i), new FixedMetadataValue(m,"true"));
 												
@@ -119,13 +112,17 @@ public class CrafteoYunque implements Listener{
 									} else {
 										p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
 									}
+									
+								//SE ROMPE EL BLOQUE
 								} else {
 									b.setType(Material.AIR);
 									b.removeMetadata("left", m);
-									
+									b.setMetadata("usos", new FixedMetadataValue(m,0));
+
 									p.sendMessage("¡Has dejado el trozo de metal inservible!");
 									
-									for (String s : resultadosNombre) {
+									for (ItemForja iforja : m.listaItemsForja) {
+										String s = iforja.getNombreItem();
 										b.removeMetadata(s, m);
 									}
 									
@@ -193,6 +190,12 @@ public class CrafteoYunque implements Listener{
 												
 												b.setType(Material.AIR);
 												b.removeMetadata("left", m);
+												b.setMetadata("usos", new FixedMetadataValue(m,0));
+												
+												for (ItemForja iforja : m.listaItemsForja) {
+													String s = iforja.getNombreItem();
+													b.removeMetadata(s, m);
+												}
 											}
 										}
 									}
@@ -301,17 +304,22 @@ public class CrafteoYunque implements Listener{
 	
 	public void reproducirSonido(Player p, Sound sonido, int rango) {
         for (Player players : Bukkit.getOnlinePlayers()) {
-			if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
-				players.getWorld().playSound(p.getLocation(), sonido, 1.0F, 0.01F);
-			}
+        	if (p.getWorld() == players.getWorld()) {
+				if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
+					
+					players.getWorld().playSound(p.getLocation(), sonido, 1.0F, 0.01F);
+				}
+        	}
         }
 	}
 	
 	public void enviarMensajeSimple(Player p, ChatColor color, String mensaje, int rango) {
         for (Player players : Bukkit.getOnlinePlayers()) {
-			if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
-				players.sendMessage(color+mensaje);
-			}
+        	if (p.getWorld() == players.getWorld()) {
+				if (p.getLocation().distanceSquared(players.getLocation()) <= 10) {
+					players.sendMessage(color+mensaje);
+				}
+        	}
         }
 	}
 }
