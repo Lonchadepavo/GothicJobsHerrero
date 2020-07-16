@@ -144,9 +144,7 @@ public class FundirMetales implements Listener{
 								                			
 								                			} else {
 								                				b.setMetadata(b.getMetadata(nombreIng+"resultado").get(0).asString(), new FixedMetadataValue(m, b.getMetadata(nombreIng+"cantidadresultado").get(0).asDouble()));
-								                				System.out.println(b.getMetadata(nombreIng+"resultado").get(0).asString());
 								                				if (b.hasMetadata("Hierro fundido")) {
-								                					System.out.println("tienehierrofundido");
 								                				}
 								                			}
 								                			

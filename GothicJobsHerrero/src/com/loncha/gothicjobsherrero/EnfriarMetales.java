@@ -1,7 +1,9 @@
 package com.loncha.gothicjobsherrero;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -60,7 +62,6 @@ public class EnfriarMetales implements Listener{
 									if (item.getItemMeta().getDisplayName().equalsIgnoreCase(nuevoNombre)) {
 										p.getInventory().addItem(item);
 										
-										reproducirSonido(p, Sound.ITEM_ARMOR_EQUIP_LEATHER, 10);
 									}
 								}
 							}
@@ -70,6 +71,11 @@ public class EnfriarMetales implements Listener{
 			                d.getData().setData((byte) (c.getData()-1));
 			                d.update();
 			                
+							reproducirSonido(p, Sound.ITEM_ARMOR_EQUIP_LEATHER, 10);
+							
+							for (int i = 0; i < 100; i++) {
+								p.spawnParticle(Particle.SMOKE_NORMAL, b.getLocation(), 0, 0, 0, 100);
+							}
 						}
 					}
 				}
